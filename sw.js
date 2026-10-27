@@ -4,13 +4,18 @@ const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();
 
 async function handleRequest(event) {
-  // Only initialize Scramjet for requests that belong to an active proxied
-  // frame. Running loadConfig() for every normal request can fail in Safari's
-  // IndexedDB implementation and break even requests for /sw.js itself.
-  if (!scramjet.route(event)) return fetch(event.request);
+  const url = new URL(event.request.url);
+
+  // The default Scramjet prefix is /a/. Do not invoke Scramjet at all for
+  // normal app/runtime requests: on Safari, route() itself may touch its
+  // IndexedDB cache and throw if that store is not initialized.
+  if (url.origin !== self.location.origin || !url.pathname.startsWith("/a/")) {
+    return fetch(event.request);
+  }
 
   await scramjet.loadConfig();
-  return scramjet.fetch(event);
+  if (scramjet.route(event)) return scramjet.fetch(event);
+  return fetch(event.request);
 }
 
 self.addEventListener("fetch", event => {
