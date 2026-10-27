@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b13">
+  <meta name="description" content="AETHER OS — Beyond the interface. A futuristic web desktop.">
+  <title>AETHER OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <main id="desktop" class="desktop" aria-label="AETHER OS desktop">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">A</span><span>AETHER <b>OS</b></span><span class="top-divider"></span><span class="edition">WEB EDITION</span></div>
+      <div class="top-center"><span class="live-dot"></span> SYSTEM ONLINE <span class="top-divider"></span><span id="topDate">MON, OCT 27</span></div>
+      <div class="top-actions"><button class="icon-btn" id="quickSettingsBtn" aria-label="Quick settings" title="Quick settings">☷</button><button class="profile-chip" id="profileBtn"><span class="profile-avatar">H</span><span>Guest</span><span class="chevron">⌄</span></button></div>
+    </header>
+    <section class="welcome">
+      <p class="eyebrow"><span class="live-dot"></span> YOUR SPACE. YOUR RULES.</p>
+      <h1>Beyond the<br><span>interface.</span></h1>
+      <p class="welcome-copy">A quieter place to get things done.</p>
+      <div class="welcome-meta"><span id="welcomeDate">MONDAY, OCTOBER 27</span><span class="meta-sep">/</span><span id="welcomeTime">09:41:00</span></div>
+    </section>
+    <section class="desktop-icons" aria-label="Desktop applications">
+      <button class="desktop-icon" data-open="browser"><span class="app-glyph glyph-browser"><i></i></span><span>Interstellar</span></button>
+      <button class="desktop-icon" data-open="files"><span class="app-glyph glyph-files">▰</span><span>Files</span></button>
+      <button class="desktop-icon" data-open="notes"><span class="app-glyph glyph-notes">✎</span><span>Notes</span></button>
+      <button class="desktop-icon" data-open="terminal"><span class="app-glyph glyph-terminal">›_</span><span>Terminal</span></button>
+      <button class="desktop-icon" data-open="calculator"><span class="app-glyph glyph-calc">＋</span><span>Calculator</span></button>
+      <button class="desktop-icon" data-open="settings"><span class="app-glyph glyph-settings">⚙</span><span>Settings</span></button>
+    </section>
+    <section class="status-card glass-card">
+      <div class="card-head"><span class="eyebrow">SYSTEM OVERVIEW</span><span class="status-pill"><span class="live-dot"></span> NOMINAL</span></div>
+      <div class="system-stats">
+        <div class="stat"><span class="stat-label">SESSION</span><strong id="sessionTime">00:00</strong><span class="stat-foot">This visit</span></div>
+        <div class="stat"><span class="stat-label">OPEN APPS</span><strong id="openCount">00</strong><span class="stat-foot">Active windows</span></div>
+        <div class="stat"><span class="stat-label">STORAGE</span><strong>LOCAL</strong><span class="stat-foot">Saved on this device</span></div>
+      </div>
+      <div class="card-bottom"><span><span class="live-dot"></span> All systems operational</span><span>AETHER CORE <b>1.0.0</b></span></div>
+    </section>
+    <div class="desktop-hint"><span class="hint-key">⌘</span> <span class="hint-key">K</span><span>Quick launch</span><span class="hint-dot">·</span><span>Double-click an app to open</span></div>
+    <div id="windowLayer" class="window-layer"></div>
+    <nav class="dock" aria-label="App dock">
+      <button class="dock-app dock-launcher" id="launcherBtn" aria-label="App launcher" title="App launcher"><span class="brand-mark">A</span></button>
+      <span class="dock-separator"></span>
+      <button class="dock-app" data-open="browser" title="Interstellar Browser"><span class="mini-glyph glyph-browser"><i></i></span><span class="dock-indicator"></span></button>
+      <button class="dock-app" data-open="files" title="Files"><span class="mini-glyph glyph-files">▰</span><span class="dock-indicator"></span></button>
+      <button class="dock-app" data-open="notes" title="Notes"><span class="mini-glyph glyph-notes">✎</span><span class="dock-indicator"></span></button>
+      <button class="dock-app" data-open="terminal" title="Terminal"><span class="mini-glyph glyph-terminal">›_</span><span class="dock-indicator"></span></button>
+      <button class="dock-app" data-open="calculator" title="Calculator"><span class="mini-glyph glyph-calc">＋</span><span class="dock-indicator"></span></button>
+      <span class="dock-spacer"></span>
+      <button class="dock-app" data-open="settings" title="Settings"><span class="mini-glyph glyph-settings">⚙</span><span class="dock-indicator"></span></button>
+      <span class="dock-separator"></span>
+      <button class="dock-clock" id="dockClock" title="Date and time">09:41</button>
+    </nav>
+    <div id="launcher" class="launcher glass-card hidden">
+      <div class="launcher-search"><span>⌕</span><input id="launcherSearch" placeholder="Search apps and actions..." autocomplete="off"><kbd>ESC</kbd></div>
+      <p class="launcher-label">YOUR APPLICATIONS</p>
+      <div class="launcher-grid" id="launcherGrid"></div>
+      <div class="launcher-footer"><span>AETHER APP SPACE</span><span>6 APPLICATIONS</span></div>
+    </div>
+    <div id="quickPanel" class="quick-panel glass-card hidden">
+      <div class="quick-panel-head"><div><span class="eyebrow">CONTROL CENTER</span><h3>Quick settings</h3></div><button class="icon-btn" id="closeQuick" aria-label="Close">×</button></div>
+      <div class="quick-toggles"><button class="toggle-tile active" data-toggle="focus"><span>◉</span><b>Focus mode</b><small>Stay in the zone</small></button><button class="toggle-tile active" data-toggle="glow"><span>✧</span><b>Ambient glow</b><small>Desktop lighting</small></button></div>
+      <div class="quick-row"><span>Interface brightness</span><input id="brightness" type="range" min="70" max="120" value="100"></div>
+      <button class="panel-settings" data-open="settings">Open full settings <span>↗</span></button>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
