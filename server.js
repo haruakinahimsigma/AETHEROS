@@ -7,6 +7,7 @@ import { createBareServer } from "@nebula-services/bare-server-node";
 import { scramjetPath } from "@mercuryworkshop/scramjet/path";
 import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
+import { server as wisp, logging } from "@mercuryworkshop/wisp-js/server";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8080);
@@ -20,6 +21,11 @@ if (!PASSWORD) console.warn("PROXY_PASSWORD is not set; proxy routes are unprote
 const app = express();
 const server = http.createServer();
 const bare = createBareServer("/ca/");
+logging.set_level(logging.NONE);
+Object.assign(wisp.options, {
+  allow_udp_streams: false,
+  dns_servers: ["1.1.1.3", "1.0.0.3"],
+});
 app.set("trust proxy", 1);
 app.use(express.urlencoded({ extended: false, limit: "8kb" }));
 
@@ -72,7 +78,9 @@ server.on("request", (req, res) => {
   app(req, res);
 });
 server.on("upgrade", (req, socket, head) => {
-  if (!bare.shouldRoute(req) || !authorized(req)) return socket.destroy();
-  bare.routeUpgrade(req, socket, head);
+  if (!authorized(req)) return socket.destroy();
+  if (req.url?.startsWith("/wisp/")) return wisp.routeRequest(req, socket, head);
+  if (bare.shouldRoute(req)) return bare.routeUpgrade(req, socket, head);
+  socket.destroy();
 });
 server.listen(PORT, "0.0.0.0", () => console.log(`AETHER OS listening on port ${PORT}`));
