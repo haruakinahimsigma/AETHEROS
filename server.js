@@ -4,6 +4,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
 import { createBareServer } from "@nebula-services/bare-server-node";
+import { scramjetPath } from "@mercuryworkshop/scramjet/path";
+import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
+import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8080);
@@ -19,6 +22,13 @@ const server = http.createServer();
 const bare = createBareServer("/ca/");
 app.set("trust proxy", 1);
 app.use(express.urlencoded({ extended: false, limit: "8kb" }));
+
+// Serve the Interstellar engine's browser-side runtime from installed packages.
+// Keep these routes ahead of the general static handler so package files are
+// available at the stable URLs expected by Scramjet and BareMux.
+app.use("/scram/", express.static(scramjetPath, { fallthrough: false, index: false }));
+app.use("/libcurl/", express.static(libcurlPath, { fallthrough: false, index: false }));
+app.use("/baremux/", express.static(baremuxPath, { fallthrough: false, index: false }));
 
 function token() { return crypto.createHmac("sha256", PASSWORD).update("aetheros-interstellar-session").digest("hex"); }
 function authorized(req) {
