@@ -1,31 +1,37 @@
 # AETHER OS
 **Beyond the interface.**
 
-AETHER OS is a responsive, browser-based desktop experience with a dark glass UI, movable app windows, a dock, app launcher, quick settings, and locally saved workspace data.
+AETHER OS is a browser-based desktop inspired by macOS: floating windows, a glassy dock, light and dark appearances, keyboard shortcuts, and local persistence. It is a web app, not a bootable operating system.
 
 ## Run it
-Open `index.html` in a browser, or deploy this repository as a static site. No build step or package installation is required.
+Open `index.html` in a modern browser, or deploy this repository as a static site. No build step or package installation is required.
 
-## Included apps
-- **Interstellar Browser** — address bar, embedded browsing, and open-in-new-tab fallback. The default home address is configured privately in the app.
-- **Files** — demo virtual folders and files saved in local browser storage.
-- **Notes** — multiple editable notes with automatic local saving.
-- **Terminal** — simulated shell commands: `help`, `date`, `whoami`, `ls`, `echo`, `open`, `theme`, `neofetch`, and `clear`.
+## Apps
+- **Interstellar Browser** — address bar plus DuckDuckGo HTML search; some websites block iframe embedding, so use Open in new tab when needed.
+- **Files** — virtual folders and demo files saved in this browser.
+- **Notes** — editable notes with automatic local saving.
+- **Terminal** — simulated commands: `help`, `clear`, `date`, `whoami`, `ls`, `pwd`, `echo`, `open`, `apps`, `theme`, `uptime`, `calc`, `search`, `joke`, `history`, `reboot`, and `neofetch`.
 - **Calculator** — basic arithmetic.
-- **Settings** — focus mode, ambient glow, wallpaper colors, and browser home reset.
+- **Settings** — appearance, wallpaper, focus mode, ambient glow.
+- **Snake** — playable keyboard/touch arcade game.
+- **To-do** — persistent task list.
+- **Calendar** — monthly calendar using your device date.
+- **Paint** — canvas drawing with PNG export.
+- **Clock** — live clock and countdown timer.
+- **Music Lab** — simple Web Audio synth loop and playable note pads.
 
 ## Controls
-- Click a desktop icon or dock icon to open an app.
-- Drag a window by its title bar.
-- Use the window dots to minimize, maximize, or close.
-- Press **⌘K** (or **Ctrl+K**) to open the app launcher.
+- Click an app icon or use the dock/launcher.
+- Drag a window by its title bar; minimize, maximize, and close with the window controls.
+- Press **⌘K** (or **Ctrl+K**) to launch apps.
 - Press **Esc** to dismiss popovers.
-- Press **⌘W** (or **Ctrl+W**) to close the topmost app window.
+- Press **⌘W** (or **Ctrl+W**) to close the topmost app.
+- In Snake, use arrow keys or **WASD**; touch controls are also provided.
 
-## Notes and limitations
-This is a web app that simulates a desktop, not a bootable operating system or a replacement for iPadOS. Browser sandboxing and websites' frame restrictions can prevent some sites from displaying inside Interstellar; use **Open in new tab** when needed. Files and notes are stored locally in the current browser profile and are not synced to a server.
+## Privacy and limitations
+Notes, tasks, preferences, and virtual files are stored in local browser storage on this device. The terminal is simulated and cannot run real shell commands. Files are a virtual workspace, not a view of your device's actual file system. Websites may block embedding; this cannot be bypassed by the app, so open them in a new tab.
 
 ## Project files
 - `index.html` — desktop markup
-- `style.css` — responsive visual design
-- `app.js` — app logic and local persistence
+- `style.css` — interface, responsive layout, and themes
+- `app.js` — window manager, apps, and local persistence
