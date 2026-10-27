@@ -5,11 +5,10 @@ const scramjet = new ScramjetServiceWorker();
 
 async function handleRequest(event) {
   const url = new URL(event.request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+  const isProxyRequest = url.pathname.startsWith("/scramjet/");
 
-  // The default Scramjet prefix is /a/. Do not invoke Scramjet at all for
-  // normal app/runtime requests: on Safari, route() itself may touch its
-  // IndexedDB cache and throw if that store is not initialized.
-  if (url.origin !== self.location.origin || !url.pathname.startsWith("/a/")) {
+  if (!isSameOrigin || !isProxyRequest) {
     return fetch(event.request);
   }
 
