@@ -7,7 +7,7 @@ AETHER OS is a responsive, browser-based desktop experience with a dark glass UI
 Open `index.html` in a browser, or deploy this repository as a static site. No build step or package installation is required.
 
 ## Included apps
-- **Interstellar Browser** — address bar, embedded browsing, and open-in-new-tab fallback. Default home: https://iwannapoop676767.up.railway.app
+- **Interstellar Browser** — address bar, embedded browsing, and open-in-new-tab fallback. The default home address is configured privately in the app.
 - **Files** — demo virtual folders and files saved in local browser storage.
 - **Notes** — multiple editable notes with automatic local saving.
 - **Terminal** — simulated shell commands: `help`, `date`, `whoami`, `ls`, `echo`, `open`, `theme`, `neofetch`, and `clear`.
