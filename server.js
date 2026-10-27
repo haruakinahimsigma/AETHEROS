@@ -13,10 +13,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 8080);
 const PASSWORD = process.env.PROXY_PASSWORD || "";
 if (process.env.NODE_ENV === "production" && !PASSWORD) {
-  console.error("Set PROXY_PASSWORD before deploying: an unauthenticated public proxy is unsafe.");
-  process.exit(1);
+  console.error("PROXY_PASSWORD is not set. AETHER OS will start, but proxy transport stays disabled until a password is configured.");
 }
-if (!PASSWORD) console.warn("PROXY_PASSWORD is not set; proxy routes are unprotected in this development run.");
+if (!PASSWORD && process.env.NODE_ENV !== "production") console.warn("PROXY_PASSWORD is not set; proxy routes are unprotected in this development run.");
 
 const app = express();
 const server = http.createServer();
@@ -38,7 +37,9 @@ app.use("/baremux/", express.static(baremuxPath, { fallthrough: false, index: fa
 
 function token() { return crypto.createHmac("sha256", PASSWORD).update("aetheros-interstellar-session").digest("hex"); }
 function authorized(req) {
-  if (!PASSWORD) return true;
+  // Never expose an unauthenticated proxy in production. Let the OS itself
+  // start so the owner can configure the missing secret in the hosting panel.
+  if (!PASSWORD) return process.env.NODE_ENV !== "production";
   const cookie = (req.headers.cookie || "").split(";").map(v => v.trim()).find(v => v.startsWith("aether_proxy="));
   const actual = cookie?.slice("aether_proxy=".length) || "", expected = token();
   return actual.length === expected.length && crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected));
@@ -58,7 +59,11 @@ app.post("/proxy-login", (req, res) => {
   const next = String(req.body.next || "/");
   res.redirect(next.startsWith("/") && !next.startsWith("//") ? next : "/");
 });
-app.get("/proxy-auth-status", (req, res) => res.json({ required: Boolean(PASSWORD), authorized: authorized(req) }));
+app.get("/proxy-auth-status", (req, res) => res.json({
+  required: Boolean(PASSWORD),
+  authorized: authorized(req),
+  proxyEnabled: Boolean(PASSWORD) || process.env.NODE_ENV !== "production",
+}));
 app.use((req, res, next) => {
   if (req.path.startsWith("/a/") && !authorized(req)) return res.redirect("/proxy-login?next=" + encodeURIComponent(req.originalUrl));
   next();
