@@ -3,10 +3,18 @@
   "version": "1.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=18" },
-  "scripts": { "start": "node server.js" },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "@nebula-services/bare-server-node": "^2.0.4",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "@mercuryworkshop/bare-mux": "^2.1.9",
+    "@mercuryworkshop/libcurl-transport": "^1.5.2",
+    "@mercuryworkshop/scramjet": "https://github.com/MercuryWorkshop/scramjet/releases/download/v1.1.0/mercuryworkshop-scramjet-1.1.0.tgz",
+    "@mercuryworkshop/wisp-js": "^0.4.1"
   }
 }
