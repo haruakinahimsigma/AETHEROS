@@ -4,9 +4,13 @@ const { ScramjetServiceWorker } = $scramjetLoadWorker();
 const scramjet = new ScramjetServiceWorker();
 
 async function handleRequest(event) {
+  // Only initialize Scramjet for requests that belong to an active proxied
+  // frame. Running loadConfig() for every normal request can fail in Safari's
+  // IndexedDB implementation and break even requests for /sw.js itself.
+  if (!scramjet.route(event)) return fetch(event.request);
+
   await scramjet.loadConfig();
-  if (scramjet.route(event)) return scramjet.fetch(event);
-  return fetch(event.request);
+  return scramjet.fetch(event);
 }
 
 self.addEventListener("fetch", event => {
